@@ -44,8 +44,8 @@ namespace csharp
             int qualityLoss = -1;
             if (inputItem.SellIn <= 0)
                 qualityLoss *= 2;
-            if (inputItem.Name.Contains("Conjured"))
-                qualityLoss *= 2;
+            //if (inputItem.Name.Contains("Conjured"))
+                //qualityLoss *= 2;
             inputItem.Quality = Math.Max(0, inputItem.Quality + qualityLoss);
             inputItem.SellIn -= 1;
             return inputItem;
