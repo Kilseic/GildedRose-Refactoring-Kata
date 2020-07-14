@@ -23,41 +23,32 @@ namespace csharp
             Assert.AreEqual(0, Items[0].Quality);
             Assert.AreEqual(0, Items[1].Quality);
         }
-        [Test]
-        public void CheckBackstagePasses()
+        [TestCase(11,5,6)]
+        [TestCase(8,5,7)]
+        [TestCase(4,5,8)]
+        [TestCase(0,5,0)]
+        public void CheckBackstagePasses(int deadline,int startQuality, int expectedQuality)
         {
             IList<Item> Items = new List<Item>
             {
-                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 11, Quality = 5},
-                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 6, Quality = 10},
-                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 1, Quality = 8}
+                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = deadline, Quality = startQuality}
             };
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
-            Assert.AreEqual(11, Items[2].Quality);
-            Assert.AreEqual(6, Items[0].Quality);
-            Assert.AreEqual(12, Items[1].Quality);
-            app.UpdateQuality();
-            Assert.AreEqual(0, Items[2].Quality);
-            Assert.AreEqual(8, Items[0].Quality);
+            Assert.AreEqual(expectedQuality, Items[0].Quality);
         }
-        [Test]
-        public void CheckBrie()
+        [TestCase(6,0,1)]
+        [TestCase(0,0,2)]
+        [TestCase(-34,23,25)]
+        public void CheckBrie(int deadline,int startQuality, int expectedQuality)
         {
             IList<Item> Items = new List<Item>
             {
-                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 11, Quality = 5},
-                new Item { Name = "Aged Brie", SellIn = 6, Quality = 0},
-                new Item { Name = "Aged Brie", SellIn = 0, Quality = 8}
+                new Item { Name = "Aged Brie", SellIn = deadline, Quality = startQuality}
             };
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
-            Assert.AreEqual(10, Items[2].Quality);
-            Assert.AreEqual(1, Items[1].Quality);
-            for (int i = 0; i<10; i++)
-                app.UpdateQuality();
-            Assert.AreEqual(30, Items[2].Quality);
-            Assert.AreEqual(16, Items[1].Quality);
+            Assert.AreEqual(expectedQuality, Items[0].Quality);
         }
         [Test]
         public void CheckLegendary()

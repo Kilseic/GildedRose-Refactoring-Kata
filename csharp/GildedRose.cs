@@ -20,35 +20,40 @@ namespace csharp
             {
                 if (legendaryItems.Contains(Items[i].Name))
                 {
-                    Items[i].SellIn = 0;
                     continue;
                 }
 
-                if (increasingItems.Contains(Items[i].Name))
+                if ("Aged Brie" == Items[i].Name)
                 {
                     Items[i] = IncreasingItem(Items[i]);
                     continue;
                 }
 
-                int qualityLoss = -1;
-                if (Items[i].SellIn <= 0)
-                    qualityLoss *= 2;
-                if (Items[i].Name.Contains("Conjured"))
-                    qualityLoss *= 2;
-                Items[i].Quality = Math.Max(0, Items[i].Quality + qualityLoss);
-                Items[i].SellIn -= 1;
+                if ("Backstage passes to a TAFKAL80ETC concert" == Items[i].Name)
+                {
+                    Items[i] = DeadlineItem(Items[i]);
+                    continue;
+                }
+
+                Items[i] = DecreasingItem(Items[i]);
             }
         }
 
-        private Item IncreasingItem(Item inputItem)
+        private Item DecreasingItem(Item inputItem)
+        {
+            int qualityLoss = -1;
+            if (inputItem.SellIn <= 0)
+                qualityLoss *= 2;
+            if (inputItem.Name.Contains("Conjured"))
+                qualityLoss *= 2;
+            inputItem.Quality = Math.Max(0, inputItem.Quality + qualityLoss);
+            inputItem.SellIn -= 1;
+            return inputItem;
+        }
+
+        private Item DeadlineItem(Item inputItem)
         {
             int newQuality = inputItem.Quality + 1;
-            if (inputItem.Name == "Aged Brie")
-            {
-                if (inputItem.SellIn <= 0)
-                    newQuality = Math.Min(50, newQuality+1);
-            }
-
             if (inputItem.Name == "Backstage passes to a TAFKAL80ETC concert")
             {
                 if (inputItem.SellIn <= 0)
@@ -59,6 +64,19 @@ namespace csharp
                     if (inputItem.SellIn <= 5)
                         newQuality = Math.Min(newQuality+1,50);
                 }
+            }
+            inputItem.Quality = newQuality;
+            inputItem.SellIn--;
+            return inputItem;
+        }
+
+        private Item IncreasingItem(Item inputItem)
+        {
+            int newQuality = inputItem.Quality + 1;
+            if (inputItem.Name == "Aged Brie")
+            {
+                if (inputItem.SellIn <= 0)
+                    newQuality = Math.Min(50, newQuality+1);
             }
             inputItem.Quality = newQuality;
             inputItem.SellIn--;
