@@ -47,24 +47,20 @@ namespace csharp
             {
                 if (inputItem.SellIn <= 0)
                     newQuality = Math.Min(50, newQuality+1);
-                inputItem.Quality = newQuality;
             }
 
             if (inputItem.Name == "Backstage passes to a TAFKAL80ETC concert")
             {
                 if (inputItem.SellIn <= 0)
-                {
                     newQuality = 0;
-                }
                 else if (inputItem.SellIn <= 10)
                 {
                     newQuality = Math.Min(newQuality+1,50);
                     if (inputItem.SellIn <= 5)
                         newQuality = Math.Min(newQuality+1,50);
                 }
-
-                inputItem.Quality = newQuality;
             }
+            inputItem.Quality = newQuality;
             inputItem.SellIn--;
             return inputItem;
         }
